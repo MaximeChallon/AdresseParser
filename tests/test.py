@@ -54,3 +54,19 @@ class TestAdresseParser(TestCase):
 
         self.assertEqual(self.adresse5["ville"]["arrondissement"], 2)
         self.assertEqual(self.adresse5["ville"]["nom"], "PARIS")
+
+    def test_succes_parse_departement(self):
+        self.assertEqual(self.adresse1["departement"]["numero"], 75)
+        self.assertEqual(self.adresse1["departement"]["nom"], "Paris")
+
+        self.assertEqual(self.adresse2["departement"]["numero"], 75)
+        self.assertEqual(self.adresse2["departement"]["nom"], "Paris")
+
+        self.assertEqual(self.adresse3["departement"]["numero"], 75)
+        self.assertEqual(self.adresse3["departement"]["nom"], "Paris")
+
+        self.assertEqual(self.adresse4["departement"]["numero"], 75)
+        self.assertEqual(self.adresse4["departement"]["nom"], "Paris")
+
+        self.assertEqual(self.adresse5["departement"]["numero"], 75)
+        self.assertEqual(self.adresse5["departement"]["nom"], "Paris")

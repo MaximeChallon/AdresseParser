@@ -27,8 +27,8 @@ DEPARTEMENTS = {
 "27":{"nom":"Eure","region":{"code":28,"nom":"Normandie"}},
 "28":{"nom":"Eure-et-Loir","region":{"code":24,"nom":"Centre-Val de Loire"}},
 "29":{"nom":"Finistère","region":{"code":53,"nom":"Bretagne"}},
-"2"A,"nom":"Corse-du-Sud","region":{"code":94,"nom":"Corse"}},
-"2"B,"nom":"Haute-Corse","region":{"code":94,"nom":"Corse"}},
+"2A":{"nom":"Corse-du-Sud","region":{"code":94,"nom":"Corse"}},
+"2B":{"nom":"Haute-Corse","region":{"code":94,"nom":"Corse"}},
 "30":{"nom":"Gard","region":{"code":76,"nom":"Occitanie"}},
 "31":{"nom":"Haute-Garonne","region":{"code":76,"nom":"Occitanie"}},
 "32":{"nom":"Gers","region":{"code":76,"nom":"Occitanie"}},
@@ -95,9 +95,9 @@ DEPARTEMENTS = {
 "93":{"nom":"Seine-Saint-Denis","region":{"code":11,"nom":"Île-de-France"}},
 "94":{"nom":"Val-de-Marne","region":{"code":11,"nom":"Île-de-France"}},
 "95":{"nom":"Val-d'Oise","region":{"code":11,"nom":"Île-de-France"}},
-"971":{"nom":"Guadeloupe","region":{"code":01,"nom":"Guadeloupe"}},
-"972":{"nom":"Martinique","region":{"code":02,"nom":"Martinique"}},
-"973":{"nom":"Guyane","region":{"code":03,"nom":"Guyane"}},
-"974":{"nom":"La Réunion","region":{"code":04,"nom":"La Réunion"}},
-"976":{"nom":"Mayotte","region":{"code":06,"nom":"Mayotte"}}
+"971":{"nom":"Guadeloupe","region":{"code":1,"nom":"Guadeloupe"}},
+"972":{"nom":"Martinique","region":{"code":2,"nom":"Martinique"}},
+"973":{"nom":"Guyane","region":{"code":3,"nom":"Guyane"}},
+"974":{"nom":"La Réunion","region":{"code":4,"nom":"La Réunion"}},
+"976":{"nom":"Mayotte","region":{"code":6,"nom":"Mayotte"}}
 }

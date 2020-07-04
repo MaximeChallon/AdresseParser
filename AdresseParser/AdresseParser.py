@@ -10,6 +10,7 @@
 
 import re
 from .codes_postaux import COMMUNES
+from .departements import DEPARTEMENTS
 
 class AdresseParser():
     def __init__(self):
@@ -27,6 +28,8 @@ class AdresseParser():
         nom_rue, type_rue = self.get_nom_type_rue(bloc_rue)
         ville, arrondissement = self.get_ville(bloc_ville)
 
+        numero_dpt = int(re.sub('[0-9]{3}$', '', str(self.get_code_postal(bloc_ville))))
+
         dict_adresse = {
             "numero": self.get_numero_rue(bloc_rue),
             "rue":{
@@ -37,6 +40,10 @@ class AdresseParser():
             "ville": {
                 "arrondissement": arrondissement,
                 "nom": ville
+            },
+            "departement": {
+                "numero": numero_dpt,
+                "nom": DEPARTEMENTS[str(numero_dpt)]["nom"]
             }
         }
 
