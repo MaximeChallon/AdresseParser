@@ -1,3 +1,13 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*-
+
+"""
+    AdresseParser.AdresseParser
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+    :copyright: (c) 2020 by MC.
+    :license: MIT, see LICENSE for more details.
+"""
+
 import re
 from .codes_postaux import COMMUNES
 
@@ -40,9 +50,9 @@ class AdresseParser():
             """
         # retournement de l'adresse donnée en string pour la mettre sous la forme Numéro_rue Rue Code_postal Ville
         # si le code postal est au début
-        if re.match("^[0-9]{5}[a-zA-Z éèàùêôî-]{0,}[0-9]{0,4}.*$", adresse_string):
-            pattern = "^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})([0-9]{0,4}.*)$"
-            requete = re.match(pattern, adresse_string).group(2) + re.match(pattern, adresse_string).group(1)
+        if re.match("^[0-9]{5}[a-zA-Z éèàùêôî-]{0,}[0-9]{0,4}(.+)$", adresse_string):
+            pattern = "^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})([0-9]{0,4}.+)$"
+            requete = re.match(pattern, adresse_string).group(2) +" "+ re.match(pattern, adresse_string).group(1)
         # si le code postal est en deuxième partie
         elif re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", adresse_string):
             requete = adresse_string
@@ -50,12 +60,14 @@ class AdresseParser():
             requete = adresse_string
 
         # à partir de l'adresse normalisée, extraction des différents blocs d'information
-        if re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", adresse_string):
+        if re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", requete):
             bloc_rue = re.sub("[0-9]{5}.*", "", requete)
-            bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}[a-zA-Z éèàùêôî-]{0,})$", adresse_string).group(1)
-        elif re.match("^[0-9]{0,4}.*$", adresse_string):
-            bloc_rue = re.sub("[0-9]{5}.*", "", adresse_string)
-            bloc_ville = None
+            bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}[a-zA-Z éèàùêôî-]{0,})$", requete).group(1)
+        elif re.match("^[0-9]{0,4}.*$", requete):
+            bloc_rue = re.sub("[0-9]{5}.*", "", requete)
+            bloc_ville = re.match("^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})[0-9]{0,4}.*$", requete)
+            if bloc_ville is not None:
+                bloc_ville = bloc_ville.group(1)
 
         return (bloc_rue, bloc_ville)
 
@@ -65,8 +77,8 @@ class AdresseParser():
         :param bloc_rue: string avec le numéro et le nom de la rue
         :return: str
         """
-        if re.match("^([0-9]+) ", bloc_rue):
-            numero_rue = str(re.match("^([0-9]+) ", bloc_rue).group(1))
+        if re.match("^([0-9]+) ?(.+)?", bloc_rue):
+            numero_rue = str(re.match("^([0-9]+) ?(.+)?", bloc_rue).group(1))
         else:
             numero_rue = str(-1)
 
@@ -81,6 +93,8 @@ class AdresseParser():
         nom_rue = re.sub(self.regex_rue, "", re.sub("[0-9]+ ?", "", bloc_rue.upper()))
         nom_rue = re.sub(" +$", "", nom_rue)
 
+        type = ""
+
         for type_rue in self.type_rue:
             if (type_rue + " ") in bloc_rue:
                 type = type_rue.upper()
@@ -93,10 +107,10 @@ class AdresseParser():
         :param bloc_ville: string avec code postal et ville
         :return: int
         """
-        if re.match("[0-9]{5}", str(bloc_ville)):
-            code_postal = re.match("([0-9]{5})", bloc_ville).group(1)
+        if re.match("([0-9]{5}) ?([^0-9]+)?", str(bloc_ville)):
+            code_postal = re.match("([0-9]{5}) ?([^0-9]+)?", bloc_ville).group(1)
         else:
-            code_postal = -1
+            code_postal = "75001"
 
         return code_postal
 
@@ -106,18 +120,21 @@ class AdresseParser():
         :param bloc_ville: string avec le code postal et la ville
         :return: str
         """
-        code_postal = self.get_code_postal(bloc_ville)
+        if bloc_ville is not None:
+            code_postal = self.get_code_postal(bloc_ville)
 
-        if re.match("[0-9]{5} ?[^0-9]+$", bloc_ville):
-            ville = re.sub("[0-9]{5} ?", "", bloc_ville)
-            ville = ville.upper()
+            if re.match("[0-9]{5} ?[^0-9]+$", str(bloc_ville)):
+                ville = re.sub("[0-9]{5} ?", "", str(bloc_ville))
+                ville = ville.upper().rstrip()
+            else:
+                ville = COMMUNES[str(code_postal)].upper().rstrip()
+
+            if "PARIS" in ville or "LYON" in bloc_ville or "MARSEILLE" in bloc_ville or re.match('^75[0-9]{3}', code_postal):
+                arrondissement = int(re.sub("^0+", "", code_postal.replace('75', '')))
+            else:
+                arrondissement = "-1"
         else:
-            ville = COMMUNES[str(code_postal)].upper()
-
-
-        if "PARIS" in ville or "LYON" in bloc_ville or "MARSEILLE" in bloc_ville or re.match('^75[0-9]{3}', code_postal):
-            arrondissement = int(re.sub("^0+", "", code_postal.replace('75', '')))
-        else:
-            arrondissement = -1
+            arrondissement = 0
+            ville = ""
 
         return ville, arrondissement
