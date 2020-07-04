@@ -1,7 +1,9 @@
-#PyAddresseParser
-Parser d'addresses françaises.
+# AddresseParser
+Parser d'adresses françaises.
 
-#Lancement
+# Lancement
+
+Package disponible sur [PyPI](https://pypi.org/project/AdresseParser/0.1.1/)
 
 Vous pouvez l'installer avec pip:
 ```bash
