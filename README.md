@@ -1,9 +1,21 @@
 #PyAddresseParser
-Parser et formatter des addresses françaises.
+Parser d'addresses françaises.
 
 #Lancement
+
+Vous pouvez l'installer avec pip:
+```bash
+pip install AdresseParser
 ```
+Exemple d'utilisation en console Python:
+```bash
 >>> from AdresseParser import AdresseParser
 >>> adr_parser = AdresseParser()
->>> adr_parser.parse("88 rue de rivoli 75001 paris")
+>>> result = adr_parser.parse("88 rue de rivoli 75002 paris")
+>>> print(result)
+{'numero': '88', 'rue': {'type': 'RUE', 'nom': 'RIVOLI'}, 'code_postal': '75002', 'ville': {'arrondissement': 2, 'nom': 'PARIS'}, 'departement': {'numero': 75, 'nom': 'Paris'}, 'region': 'Île-de-France', 'pays': 'France'}
+>>> print(result['rue'])
+{'type': 'RUE', 'nom': 'RIVOLI'}
+>>> print(result['ville']['arrondissement'])
+2
 ```

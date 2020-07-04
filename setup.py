@@ -6,7 +6,7 @@ import AdresseParser
 try:
     LONG_DESCRIPTION = open('README.md').read()
 except:
-    LONG_DESCRIPTION = u"Parser et formatter d'adresses françaises"
+    LONG_DESCRIPTION = u"Parser d'adresses françaises"
 
 CLASSIFIERS=[
     "Intended Audience :: Developers",
@@ -16,14 +16,13 @@ CLASSIFIERS=[
     "Topic :: Education"
 ]
 
-setup(name="PyAdresseParser",
+setup(name="AdresseParser",
       version=AdresseParser.__version__,
-      description="Parser et formatter d'adresses françaises",
+      description="Parser d'adresses françaises",
       long_description=LONG_DESCRIPTION,
       author="Maxime Challon",
       author_email="maxime.challon@gmail.com",
       keywords="adresse France",
       classifiers=CLASSIFIERS,
-      url="",
       packages=["AdresseParser"],
       install_requires=[])

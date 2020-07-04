@@ -3,8 +3,9 @@
 
 """
     AdresseParser.AdresseParser
+    Parser d'adresses françaises.
     ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
-    :copyright: (c) 2020 by MC.
+    :copyright: (c) 2020 by Maxime Challon.
     :license: MIT, see LICENSE for more details.
 """
 
