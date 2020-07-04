@@ -50,12 +50,19 @@ class AdresseParser():
             """
         # retournement de l'adresse donnée en string pour la mettre sous la forme Numéro_rue Rue Code_postal Ville
         # si le code postal est au début
-        if re.match("^[0-9]{5}[a-zA-Z éèàùêôî-]{0,}[0-9]{0,4}(.+)$", adresse_string):
+        if re.match("^[0-9]{5}[a-zA-Z éèàùêôî-]{0,}[0-9]{1,4}(.+)$", adresse_string):
             pattern = "^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})([0-9]{0,4}.+)$"
             requete = re.match(pattern, adresse_string).group(2) +" "+ re.match(pattern, adresse_string).group(1)
+
+        # si le bloc_ville est au début et qu'il n'y a pas de numéro de rue
+        elif re.match("[0-9]{5} ?.+ ?([r|R]ue|RUE|[a|A]venue|AVENUE|[b|B]oulevard|BOULEVARD|QUAI|[q|Q]uai|PLACE|[p|P]lace).+", adresse_string):
+            pattern = "^([0-9]{5} ?.+) ?(([r|R]ue|RUE|[a|A]venue|AVENUE|[b|B]oulevard|BOULEVARD|QUAI|[q|Q]uai|PLACE|[p|P]lace).+)$"
+            requete = re.match(pattern, adresse_string).group(2) + " " + re.match(pattern, adresse_string).group(1)
+
         # si le code postal est en deuxième partie
         elif re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", adresse_string):
             requete = adresse_string
+
         else:
             requete = adresse_string
 
