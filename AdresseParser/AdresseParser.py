@@ -45,7 +45,8 @@ class AdresseParser():
                 "numero": numero_dpt,
                 "nom": DEPARTEMENTS[str(numero_dpt)]["nom"]
             },
-            "region": DEPARTEMENTS[str(numero_dpt)]["region"]["nom"]
+            "region": DEPARTEMENTS[str(numero_dpt)]["region"]["nom"],
+            "pays": "France"
         }
 
         return dict_adresse
@@ -147,7 +148,7 @@ class AdresseParser():
             if "PARIS" in ville or "LYON" in bloc_ville or "MARSEILLE" in bloc_ville or re.match('^75[0-9]{3}', code_postal):
                 arrondissement = int(re.sub("^0+", "", code_postal.replace('75', '')))
             else:
-                arrondissement = "-1"
+                arrondissement = 0
         else:
             arrondissement = 0
             ville = ""
