@@ -1,4 +1,7 @@
+# -*- coding: utf-8 -*-
+
 from setuptools import setup
+import AdresseParser
 
 try:
     LONG_DESCRIPTION = open('README.md').read()
@@ -14,7 +17,7 @@ CLASSIFIERS=[
 ]
 
 setup(name="PyAdresseParser",
-      version="0.0.1",
+      version=AdresseParser.__version__,
       description="Parser et formatter d'adresses françaises",
       long_description=LONG_DESCRIPTION,
       author="Maxime Challon",
