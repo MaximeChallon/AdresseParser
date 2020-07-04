@@ -1,9 +1,9 @@
 # AddresseParser
-Parser d'adresses françaises.
+Package Python pour parser les adresses françaises.
 
 # Lancement
 
-Package disponible sur [PyPI](https://pypi.org/project/AdresseParser/0.1.1/)
+Package disponible sur [PyPI](https://pypi.org/project/AdresseParser)
 
 Vous pouvez l'installer avec pip:
 ```bash
@@ -20,4 +20,27 @@ Exemple d'utilisation en console Python:
 {'type': 'RUE', 'nom': 'RIVOLI'}
 >>> print(result['ville']['arrondissement'])
 2
+```
+
+# Return
+
+```json
+{
+    "numero": "str",
+    "rue":{
+          "type": "str",
+          "nom": "str"
+     },
+    "code_postal": "str",
+    "ville": {
+          "arrondissement": "int",
+          "nom": "str"
+     },
+    "departement": {
+          "numero": "str",
+          "nom": "str"
+     },
+    "region": "str",
+    "pays": "France"
+ }
 ```
