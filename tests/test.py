@@ -70,3 +70,14 @@ class TestAdresseParser(TestCase):
 
         self.assertEqual(self.adresse5["departement"]["numero"], 75)
         self.assertEqual(self.adresse5["departement"]["nom"], "Paris")
+
+    def test_succes_parse_region(self):
+        self.assertEqual(self.adresse1["region"], "Île-de-France")
+
+        self.assertEqual(self.adresse2["region"], "Île-de-France")
+
+        self.assertEqual(self.adresse3["region"], "Île-de-France")
+
+        self.assertEqual(self.adresse4["region"], "Île-de-France")
+
+        self.assertEqual(self.adresse5["region"], "Île-de-France")

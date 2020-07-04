@@ -44,7 +44,8 @@ class AdresseParser():
             "departement": {
                 "numero": numero_dpt,
                 "nom": DEPARTEMENTS[str(numero_dpt)]["nom"]
-            }
+            },
+            "region": DEPARTEMENTS[str(numero_dpt)]["region"]["nom"]
         }
 
         return dict_adresse
