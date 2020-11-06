@@ -1,4 +1,4 @@
-[![Build Status](https://travis-ci.org/MaximeChallon/AdresseParser.svg?branch=master)](https://travis-ci.org/MaximeChallon/AdresseParser)
+![Python package](https://github.com/MaximeChallon/AdresseParser/workflows/Python%20package/badge.svg?branch=master)
 
 # AddresseParser
 Package Python pour parser les adresses françaises.
