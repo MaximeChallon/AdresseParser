@@ -1,4 +1,9 @@
+![GitHub](https://img.shields.io/github/license/MaximeChallon/AdresseParser?logo=License)
+![GitHub contributors](https://img.shields.io/github/contributors/MaximeChallon/AdresseParser)
 ![Python package](https://github.com/MaximeChallon/AdresseParser/workflows/Python%20package/badge.svg?branch=master)
+![PyPI](https://img.shields.io/pypi/v/AdresseParser)
+![PyPI - Format](https://img.shields.io/pypi/format/AdresseParser?label=PyPi%20format)
+[![Build Status](https://travis-ci.org/MaximeChallon/AdresseParser.svg?branch=master)](https://travis-ci.org/MaximeChallon/AdresseParser)
 
 # AddresseParser
 Package Python pour parser les adresses françaises.
