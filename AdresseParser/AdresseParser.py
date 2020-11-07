@@ -29,8 +29,16 @@ class AdresseParser():
         nom_rue, type_rue = self.get_nom_type_rue(bloc_rue)
         ville, arrondissement = self.get_ville(bloc_ville)
 
-        numero_dpt = int(re.sub('[0-9]{3}$', '', str(self.get_code_postal(bloc_ville))))
-
+        code_postal = int(self.get_code_postal(bloc_ville))
+        numero_dpt = int(re.sub('[0-9]{3}$', '', str(code_postal)))
+        if int(numero_dpt) < 10:
+            numero_dpt = "0" + str(numero_dpt)
+        if 20000 <= code_postal < 21000:
+            if code_postal <= 20190:
+                numero_dpt = "2A"
+            else:
+                numero_dpt = "2B"
+        
         dict_adresse = {
             "numero": self.get_numero_rue(bloc_rue),
             "rue":{
