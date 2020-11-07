@@ -29,15 +29,7 @@ class AdresseParser():
         nom_rue, type_rue = self.get_nom_type_rue(bloc_rue)
         ville, arrondissement = self.get_ville(bloc_ville)
 
-        code_postal = int(self.get_code_postal(bloc_ville))
-        numero_dpt = int(re.sub('[0-9]{3}$', '', str(code_postal)))
-        if int(numero_dpt) < 10:
-            numero_dpt = "0" + str(numero_dpt)
-        if 20000 <= code_postal < 21000:
-            if code_postal <= 20190:
-                numero_dpt = "2A"
-            else:
-                numero_dpt = "2B"
+        code_postal, numero_dpt = self.get_code_postal(bloc_ville)
         
         dict_adresse = {
             "numero": self.get_numero_rue(bloc_rue),
@@ -45,7 +37,7 @@ class AdresseParser():
                 "type": type_rue,
                 "nom": nom_rue
             },
-            "code_postal": self.get_code_postal(bloc_ville),
+            "code_postal": code_postal,
             "ville": {
                 "arrondissement": arrondissement,
                 "nom": ville
@@ -137,7 +129,16 @@ class AdresseParser():
         else:
             code_postal = "75001"
 
-        return code_postal
+        numero_dpt = int(re.sub('[0-9]{3}$', '', str(code_postal)))
+        if int(numero_dpt) < 10:
+            numero_dpt = "0" + str(numero_dpt)
+        if 20000 <= int(code_postal) < 21000:
+            if int(code_postal) <= 20190:
+                numero_dpt = "2A"
+            else:
+                numero_dpt = "2B"
+
+        return code_postal, numero_dpt
 
     def get_ville(self, bloc_ville):
         """
@@ -146,7 +147,7 @@ class AdresseParser():
         :return: str
         """
         if bloc_ville is not None:
-            code_postal = self.get_code_postal(bloc_ville)
+            code_postal, numero_dpt = self.get_code_postal(bloc_ville)
 
             if re.match("[0-9]{5} ?[^0-9]+$", str(bloc_ville)):
                 ville = re.sub("[0-9]{5} ?", "", str(bloc_ville))
