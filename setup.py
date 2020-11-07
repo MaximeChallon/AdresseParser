@@ -1,5 +1,10 @@
 # -*- coding: utf-8 -*-
 
+################# To build the package and upload it ##################
+# python3 setup.py sdist bdist_wheel
+# twine upload dist/*
+#######################################################################
+
 from setuptools import setup
 import AdresseParser
 
