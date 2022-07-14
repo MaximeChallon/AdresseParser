@@ -1,3 +1,6 @@
+#!/usr/bin/python
+# -*- coding: utf8 -*-
+
 #from unittest import TestCase
 from AdresseParser import AdresseParser
 import pytest
@@ -12,6 +15,7 @@ class TestAdresseParser():
     adresse3 = adresse_parser.parse("88 rue de rivoli")
     adresse4 = adresse_parser.parse("rue de rivoli 75002 paris")
     adresse5 = adresse_parser.parse("75002 paris rue de rivoli")
+    adresse6 = adresse_parser.parse("1 PLACE GEORGES AGNIEL 01140 SAINT DIDIER SUR CHALARONNE")
 
     def test_succes_parse_numero(self):
         assert self.adresse1["numero"] == str(88)
@@ -23,6 +27,8 @@ class TestAdresseParser():
         assert self.adresse4["numero"] == str(-1)
 
         assert self.adresse5["numero"] == str(-1)
+
+        assert self.adresse6["numero"] == str(1)
 
     def test_succes_parse_rue(self):
         assert self.adresse1["rue"]["type"] == "RUE"
@@ -40,6 +46,9 @@ class TestAdresseParser():
         assert self.adresse5["rue"]["type"] == "RUE"
         assert self.adresse5["rue"]["nom"] == "RIVOLI"
 
+        assert self.adresse6["rue"]["type"] == "PLACE"
+        assert self.adresse6["rue"]["nom"] == "GEORGES AGNIEL"
+
     def test_succes_parse_ville(self):
         assert self.adresse1["ville"]["arrondissement"] == 2
         assert self.adresse1["ville"]["nom"] == "PARIS"
@@ -55,6 +64,8 @@ class TestAdresseParser():
 
         assert self.adresse5["ville"]["arrondissement"] == 2
         assert self.adresse5["ville"]["nom"] == "PARIS"
+
+        assert self.adresse6["ville"]["nom"] == "SAINT DIDIER SUR CHALARONNE"
 
     def test_succes_parse_departement(self):
         assert self.adresse1["departement"]["numero"] == 75
@@ -72,6 +83,9 @@ class TestAdresseParser():
         assert self.adresse5["departement"]["numero"] == 75
         assert self.adresse5["departement"]["nom"] == "Paris"
 
+        assert self.adresse6["departement"]["numero"] == '01'
+        assert self.adresse6["departement"]["nom"] == "Ain"
+
     def test_succes_parse_region(self):
         assert self.adresse1["region"] == "Île-de-France"
 
@@ -82,3 +96,5 @@ class TestAdresseParser():
         assert self.adresse4["region"] == "Île-de-France"
 
         assert self.adresse5["region"] == "Île-de-France"
+
+        assert self.adresse6["region"] == "Auvergne-Rhône-Alpes"
