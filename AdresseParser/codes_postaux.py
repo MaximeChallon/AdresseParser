@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 COMMUNES = {
 "10200":"Ailleville",
 "10160":"Aix-Villemaur-Pâlis",

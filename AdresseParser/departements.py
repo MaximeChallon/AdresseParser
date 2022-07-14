@@ -1,3 +1,5 @@
+# -*- coding: utf8 -*-
+
 DEPARTEMENTS = {
 "01":{"nom":"Ain","region":{"code":84,"nom":"Auvergne-Rhône-Alpes"}},
 "02":{"nom":"Aisne","region":{"code":32,"nom":"Hauts-de-France"}},
