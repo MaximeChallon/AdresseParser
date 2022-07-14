@@ -113,7 +113,7 @@ class AdresseParser():
         type = ""
 
         for type_rue in self.type_rue:
-            if (type_rue + " ") in bloc_rue:
+            if (type_rue + " ") in bloc_rue.lower():
                 type = type_rue.upper()
 
         return nom_rue, type
