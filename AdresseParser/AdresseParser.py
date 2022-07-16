@@ -80,6 +80,7 @@ class AdresseParser():
         if re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", requete):
             bloc_rue = re.sub("[0-9]{5}.*", "", requete)
             bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}[a-zA-Z éèàùêôî-]{0,})$", requete).group(1)
+
         elif re.match("^[0-9]{0,4}.*$", requete):
             bloc_rue = re.sub("[0-9]{5}.*", "", requete)
             bloc_ville = re.match("^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})[0-9]{0,4}.*$", requete)
@@ -94,8 +95,9 @@ class AdresseParser():
         :param bloc_rue: string avec le numéro et le nom de la rue
         :return: str
         """
-        if re.match("^([0-9]+) ?(.+)?", bloc_rue):
-            numero_rue = str(re.match("^([0-9]+) ?(.+)?", bloc_rue).group(1))
+        #ancien : ^([0-9]+) ?(.+)?
+        if re.match("^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?", bloc_rue):
+            numero_rue = str(re.match("^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?", bloc_rue).group(1)).replace(" ","").lower()
         else:
             numero_rue = str(-1)
 
@@ -107,7 +109,7 @@ class AdresseParser():
         :param bloc_rue: string avec le numéro et le nom de la rue
         :return: str
         """
-        nom_rue = re.sub(self.regex_rue, "", re.sub("[0-9]+ ?", "", bloc_rue.upper()))
+        nom_rue = re.sub(self.regex_rue, "", re.sub("(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?", "", bloc_rue.upper()))
         nom_rue = re.sub(" +$", "", nom_rue)
 
         type = ""
