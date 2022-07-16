@@ -47,7 +47,7 @@ class TestAdresseParser():
         assert self.adresse6["rue"]["nom"] == "GEORGES AGNIEL"
 
         assert self.adresse7["rue"]["type"] == "CITÉ"
-        assert self.adresse7["rue"]["nom"] == "DES FLEURS"
+        assert self.adresse7["rue"]["nom"] == "FLEURS"
 
     def test_succes_parse_ville(self):
         assert self.adresse1["ville"]["arrondissement"] == 2
