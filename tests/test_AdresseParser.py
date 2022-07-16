@@ -17,6 +17,7 @@ class TestAdresseParser():
     adresse5 = adresse_parser.parse("75002 paris rue de rivoli")
     adresse6 = adresse_parser.parse("1 PLACE GEORGES AGNIEL 01140 SAINT DIDIER SUR CHALARONNE")
     adresse7 = adresse_parser.parse("cité des fleurs 75018 PARIS")
+    adresse8 = adresse_parser.parse("8 rond-point des Pyramides 77120 CHAMPS")
 
     def test_succes_parse_numero(self):
         assert self.adresse1["numero"] == str(88)
@@ -26,6 +27,7 @@ class TestAdresseParser():
         assert self.adresse5["numero"] == str(-1)
         assert self.adresse6["numero"] == str(1)
         assert self.adresse7["numero"] == str(-1)
+        assert self.adresse8["numero"] == str(8)
 
     def test_succes_parse_rue(self):
         assert self.adresse1["rue"]["type"] == "RUE"
@@ -49,6 +51,9 @@ class TestAdresseParser():
         assert self.adresse7["rue"]["type"] == "CITÉ"
         assert self.adresse7["rue"]["nom"] == "FLEURS"
 
+        assert self.adresse8["rue"]["type"] == "ROND-POINT"
+        assert self.adresse8["rue"]["nom"] == "PYRAMIDES"
+
     def test_succes_parse_ville(self):
         assert self.adresse1["ville"]["arrondissement"] == 2
         assert self.adresse1["ville"]["nom"] == "PARIS"
@@ -69,6 +74,8 @@ class TestAdresseParser():
 
         assert self.adresse7["ville"]["arrondissement"] == 18
         assert self.adresse7["ville"]["nom"] == "PARIS"
+
+        assert self.adresse8["ville"]["nom"] == "CHAMPS"
 
     def test_succes_parse_departement(self):
         assert self.adresse1["departement"]["numero"] == 75
@@ -92,6 +99,9 @@ class TestAdresseParser():
         assert self.adresse7["departement"]["numero"] == 75
         assert self.adresse7["departement"]["nom"] == "Paris"
 
+        assert self.adresse8["departement"]["numero"] == 77
+        assert self.adresse8["departement"]["nom"] == "Seine-et-Marne"
+
     def test_succes_parse_region(self):
         assert self.adresse1["region"] == "Île-de-France"
 
@@ -106,3 +116,5 @@ class TestAdresseParser():
         assert self.adresse6["region"] == "Auvergne-Rhône-Alpes"
 
         assert self.adresse7["region"] == "Île-de-France"
+
+        assert self.adresse8["region"] == "Île-de-France"
