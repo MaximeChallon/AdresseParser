@@ -18,6 +18,10 @@ class TestAdresseParser():
     adresse6 = adresse_parser.parse("1 PLACE GEORGES AGNIEL 01140 SAINT DIDIER SUR CHALARONNE")
     adresse7 = adresse_parser.parse("cité des fleurs 75018 PARIS")
     adresse8 = adresse_parser.parse("8 rond-point des Pyramides 77120 CHAMPS")
+    adresse9 = adresse_parser.parse("8B rue de rivoli 75002 paris")
+    adresse10 = adresse_parser.parse("8bis rue de rivoli 75002 paris")
+    adresse11 = adresse_parser.parse("8 B rue de rivoli 75002 paris")
+    adresse12 = adresse_parser.parse("8 bis rue de rivoli 75002 paris")
 
     def test_succes_parse_numero(self):
         assert self.adresse1["numero"] == str(88)
@@ -28,6 +32,10 @@ class TestAdresseParser():
         assert self.adresse6["numero"] == str(1)
         assert self.adresse7["numero"] == str(-1)
         assert self.adresse8["numero"] == str(8)
+        assert self.adresse9["numero"] == str('8b')
+        assert self.adresse10["numero"] == str('8bis')
+        assert self.adresse11["numero"] == str('8b')
+        assert self.adresse12["numero"] == str('8bis')
 
     def test_succes_parse_rue(self):
         assert self.adresse1["rue"]["type"] == "RUE"
@@ -54,6 +62,18 @@ class TestAdresseParser():
         assert self.adresse8["rue"]["type"] == "ROND-POINT"
         assert self.adresse8["rue"]["nom"] == "PYRAMIDES"
 
+        assert self.adresse9["rue"]["type"] == "RUE"
+        assert self.adresse9["rue"]["nom"] == "RIVOLI"
+
+        assert self.adresse10["rue"]["type"] == "RUE"
+        assert self.adresse10["rue"]["nom"] == "RIVOLI"
+
+        assert self.adresse11["rue"]["type"] == "RUE"
+        assert self.adresse11["rue"]["nom"] == "RIVOLI"
+
+        assert self.adresse12["rue"]["type"] == "RUE"
+        assert self.adresse12["rue"]["nom"] == "RIVOLI"
+
     def test_succes_parse_ville(self):
         assert self.adresse1["ville"]["arrondissement"] == 2
         assert self.adresse1["ville"]["nom"] == "PARIS"
@@ -76,6 +96,18 @@ class TestAdresseParser():
         assert self.adresse7["ville"]["nom"] == "PARIS"
 
         assert self.adresse8["ville"]["nom"] == "CHAMPS"
+
+        assert self.adresse9["ville"]["arrondissement"] == 2
+        assert self.adresse9["ville"]["nom"] == "PARIS"
+
+        assert self.adresse10["ville"]["arrondissement"] == 2
+        assert self.adresse10["ville"]["nom"] == "PARIS"
+
+        assert self.adresse11["ville"]["arrondissement"] == 2
+        assert self.adresse11["ville"]["nom"] == "PARIS"
+
+        assert self.adresse12["ville"]["arrondissement"] == 2
+        assert self.adresse12["ville"]["nom"] == "PARIS"
 
     def test_succes_parse_departement(self):
         assert self.adresse1["departement"]["numero"] == 75
@@ -102,6 +134,18 @@ class TestAdresseParser():
         assert self.adresse8["departement"]["numero"] == 77
         assert self.adresse8["departement"]["nom"] == "Seine-et-Marne"
 
+        assert self.adresse9["departement"]["numero"] == 75
+        assert self.adresse9["departement"]["nom"] == "Paris"
+
+        assert self.adresse10["departement"]["numero"] == 75
+        assert self.adresse10["departement"]["nom"] == "Paris"
+
+        assert self.adresse11["departement"]["numero"] == 75
+        assert self.adresse11["departement"]["nom"] == "Paris"
+
+        assert self.adresse12["departement"]["numero"] == 75
+        assert self.adresse12["departement"]["nom"] == "Paris"
+
     def test_succes_parse_region(self):
         assert self.adresse1["region"] == "Île-de-France"
 
@@ -118,3 +162,11 @@ class TestAdresseParser():
         assert self.adresse7["region"] == "Île-de-France"
 
         assert self.adresse8["region"] == "Île-de-France"
+
+        assert self.adresse9["region"] == "Île-de-France"
+
+        assert self.adresse10["region"] == "Île-de-France"
+
+        assert self.adresse11["region"] == "Île-de-France"
+
+        assert self.adresse12["region"] == "Île-de-France"
