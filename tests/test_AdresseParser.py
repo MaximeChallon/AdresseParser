@@ -22,6 +22,7 @@ class TestAdresseParser():
     adresse10 = adresse_parser.parse("8bis rue de rivoli 75002 paris")
     adresse11 = adresse_parser.parse("8 B rue de rivoli 75002 paris")
     adresse12 = adresse_parser.parse("8 bis rue de rivoli 75002 paris")
+    adresse13 = adresse_parser.parse("2 bis place de la Vigie 40510 Seignosse")
 
     def test_succes_parse_numero(self):
         assert self.adresse1["numero"] == str(88)
@@ -36,6 +37,7 @@ class TestAdresseParser():
         assert self.adresse10["numero"] == str('8')
         assert self.adresse11["numero"] == str('8')
         assert self.adresse12["numero"] == str('8')
+        assert self.adresse13["numero"] == str('2')
 
         assert self.adresse1["indice"] == None
         assert self.adresse2["indice"] == None
@@ -49,6 +51,7 @@ class TestAdresseParser():
         assert self.adresse10["indice"] == 'BIS'
         assert self.adresse11["indice"] == 'B'
         assert self.adresse12["indice"] == 'BIS'
+        assert self.adresse13["indice"] == 'BIS'
 
     def test_succes_parse_rue(self):
         assert self.adresse1["rue"]["type"] == "RUE"
@@ -87,6 +90,9 @@ class TestAdresseParser():
         assert self.adresse12["rue"]["type"] == "RUE"
         assert self.adresse12["rue"]["nom"] == "RIVOLI"
 
+        assert self.adresse13["rue"]["type"] == "PLACE"
+        assert self.adresse13["rue"]["nom"] == "LA VIGIE"
+
     def test_succes_parse_ville(self):
         assert self.adresse1["ville"]["arrondissement"] == 2
         assert self.adresse1["ville"]["nom"] == "PARIS"
@@ -121,6 +127,9 @@ class TestAdresseParser():
 
         assert self.adresse12["ville"]["arrondissement"] == 2
         assert self.adresse12["ville"]["nom"] == "PARIS"
+
+        assert self.adresse13["ville"]["arrondissement"] == 0
+        assert self.adresse13["ville"]["nom"] == "SEIGNOSSE"
 
     def test_succes_parse_departement(self):
         assert self.adresse1["departement"]["numero"] == 75
@@ -159,6 +168,9 @@ class TestAdresseParser():
         assert self.adresse12["departement"]["numero"] == 75
         assert self.adresse12["departement"]["nom"] == "Paris"
 
+        assert self.adresse13["departement"]["numero"] == 40
+        assert self.adresse13["departement"]["nom"] == "Landes"
+
     def test_succes_parse_region(self):
         assert self.adresse1["region"] == "Île-de-France"
 
@@ -183,3 +195,5 @@ class TestAdresseParser():
         assert self.adresse11["region"] == "Île-de-France"
 
         assert self.adresse12["region"] == "Île-de-France"
+
+        assert self.adresse13["region"] == "Nouvelle-Aquitaine"
