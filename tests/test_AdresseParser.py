@@ -32,10 +32,10 @@ class TestAdresseParser():
         assert self.adresse6["numero"] == str(1)
         assert self.adresse7["numero"] == str(-1)
         assert self.adresse8["numero"] == str(8)
-        assert self.adresse9["numero"] == str('8b')
-        assert self.adresse10["numero"] == str('8bis')
-        assert self.adresse11["numero"] == str('8b')
-        assert self.adresse12["numero"] == str('8bis')
+        assert self.adresse9["numero"] == str('8')
+        assert self.adresse10["numero"] == str('8')
+        assert self.adresse11["numero"] == str('8')
+        assert self.adresse12["numero"] == str('8')
 
         assert self.adresse1["indice"] == None
         assert self.adresse2["indice"] == None
