@@ -30,9 +30,12 @@ class AdresseParser():
         ville, arrondissement = self.get_ville(bloc_ville)
 
         code_postal, numero_dpt = self.get_code_postal(bloc_ville)
+
+        numero, indice = self.get_numero_rue(bloc_rue)
         
         dict_adresse = {
-            "numero": self.get_numero_rue(bloc_rue),
+            "numero": numero,
+            "indice":indice,
             "rue":{
                 "type": type_rue,
                 "nom": nom_rue
@@ -91,17 +94,22 @@ class AdresseParser():
 
     def get_numero_rue(self, bloc_rue):
         """
-        Permet d'extraire le numéro de la rue
+        Permet d'extraire le numéro de la rue et son indice
         :param bloc_rue: string avec le numéro et le nom de la rue
-        :return: str
+        :return: tuple(str, str)
         """
-        #ancien : ^([0-9]+) ?(.+)?
-        if re.match("^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?", bloc_rue):
-            numero_rue = str(re.match("^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?", bloc_rue).group(1)).replace(" ","").lower()
+        regex = "^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?"
+        if re.match(regex, bloc_rue):
+            tmp = str(re.match(regex, bloc_rue).group(1)).replace(" ","").lower()
+            numero_rue = re.sub(r'[^0-9\-]', '', tmp)
+            indice = str(re.sub(r'[0-9\-]', '', tmp)).upper()
+            if indice == '':
+                indice = None
         else:
             numero_rue = str(-1)
+            indice = None
 
-        return numero_rue
+        return numero_rue, indice
 
     def get_nom_type_rue(self, bloc_rue):
         """
