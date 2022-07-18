@@ -37,6 +37,19 @@ class TestAdresseParser():
         assert self.adresse11["numero"] == str('8b')
         assert self.adresse12["numero"] == str('8bis')
 
+        assert self.adresse1["indice"] == None
+        assert self.adresse2["indice"] == None
+        assert self.adresse3["indice"] == None
+        assert self.adresse4["indice"] == None
+        assert self.adresse5["indice"] == None
+        assert self.adresse6["indice"] == None
+        assert self.adresse7["indice"] == None
+        assert self.adresse8["indice"] == None
+        assert self.adresse9["indice"] == 'B'
+        assert self.adresse10["indice"] == 'BIS'
+        assert self.adresse11["indice"] == 'B'
+        assert self.adresse12["indice"] == 'BIS'
+
     def test_succes_parse_rue(self):
         assert self.adresse1["rue"]["type"] == "RUE"
         assert self.adresse1["rue"]["nom"] == "RIVOLI"
