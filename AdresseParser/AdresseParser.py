@@ -108,7 +108,10 @@ class AdresseParser():
             if indice == '':
                 indice = None
             else:
-                indice = cible_indice[source_indice.index(indice)]
+                try:
+                    indice = cible_indice[source_indice.index(indice)]
+                except:
+                    indice = indice
         else:
             numero_rue = str(-1)
             indice = None
