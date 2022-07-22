@@ -24,6 +24,11 @@ class TestAdresseParser():
     adresse12 = adresse_parser.parse("8 bis rue de rivoli 75002 paris")
     adresse13 = adresse_parser.parse("2 bis place de la Vigie 40510 Seignosse")
 
+    compare1 = adresse_parser.compare("8 B rue de rivoli 75002 paris", "8 b rue de rivoli 75002 paris")
+    compare2 = adresse_parser.compare("8 rue de la ferronnerie 75002 paris", "8 RUE FERRONNERIE 75002 paris", True)
+    compare3 = adresse_parser.compare("8 B rue de rivoli 75002 paris", "8 rue de rivoli 75002 paris")
+    compare4 = adresse_parser.compare("8 rue de la ferronnerie 75002 paris", "8 BIS RUE FERRONNERIE 75002 paris", True)
+
     def test_succes_parse_numero(self):
         assert self.adresse1["numero"] == str(88)
         assert self.adresse2["numero"] == str(88)
@@ -47,9 +52,9 @@ class TestAdresseParser():
         assert self.adresse6["indice"] == None
         assert self.adresse7["indice"] == None
         assert self.adresse8["indice"] == None
-        assert self.adresse9["indice"] == 'B'
+        assert self.adresse9["indice"] == 'BIS'
         assert self.adresse10["indice"] == 'BIS'
-        assert self.adresse11["indice"] == 'B'
+        assert self.adresse11["indice"] == 'BIS'
         assert self.adresse12["indice"] == 'BIS'
         assert self.adresse13["indice"] == 'BIS'
 
@@ -197,3 +202,9 @@ class TestAdresseParser():
         assert self.adresse12["region"] == "Île-de-France"
 
         assert self.adresse13["region"] == "Nouvelle-Aquitaine"
+
+    def test_compare(self):
+        assert self.compare1 == True
+        assert self.compare2 == True
+        assert self.compare3 == False
+        assert self.compare4 == False
