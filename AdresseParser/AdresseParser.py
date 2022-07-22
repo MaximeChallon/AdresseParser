@@ -98,6 +98,8 @@ class AdresseParser():
         :param bloc_rue: string avec le numéro et le nom de la rue
         :return: tuple(str, str)
         """
+        source_indice = ["B", "BI", "BIS", "T", "TE", "TER", "C", "Q", "QUATER", "D"]
+        cible_indice = ["BIS", "BIS", "BIS", "TER", "TER", "TER", "TER", "QUATER", "QUATER", "QUATER"]
         regex = "^(([0-9]+)( ?(B|b|bis|BIS|t|T|ter|TER|quater|QUATER|C|D|E|c|d|e|f|F) )?) ?(.+)?"
         if re.match(regex, bloc_rue):
             tmp = str(re.match(regex, bloc_rue).group(1)).replace(" ","").lower()
@@ -105,6 +107,8 @@ class AdresseParser():
             indice = str(re.sub(r'[0-9\-]', '', tmp)).upper()
             if indice == '':
                 indice = None
+            else:
+                indice = cible_indice[source_indice.index(indice)]
         else:
             numero_rue = str(-1)
             indice = None
@@ -174,3 +178,22 @@ class AdresseParser():
             ville = ""
 
         return ville, arrondissement
+
+    def compare(self, adresse1:str, adresse2:str, clean_stopwords:bool = False):
+        """
+        Compare les deux adresses données en entrée
+        :param adresse1: string , première adresse à comparer
+        :param adresse2: string, deuxième adresse à comparer
+        :param clean_stopwords: boolean, si True, effectue la comparaison en enlevant les stopwords de la rue
+        :return: bool
+        """
+        identique = False
+        adresse1 = self.parse(adresse1)
+        adresse2 = self.parse(adresse2)
+        regex_stop = r'((^| )((AU)|(DE)|(DES)|(DU)|(EN)|(LA)|(LE)|(LES)|(SON)|(SUR))) '
+        if clean_stopwords:
+            adresse1["rue"]["nom"] = re.sub(regex_stop, '', adresse1["rue"]["nom"])
+            adresse2["rue"]["nom"] = re.sub(regex_stop, '', adresse2["rue"]["nom"])
+        if adresse1 == adresse2:
+            identique =True
+        return identique
