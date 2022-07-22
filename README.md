@@ -7,7 +7,7 @@
 ![GitHub Release Date](https://img.shields.io/github/release-date/MaximeChallon/AdresseParser)
 
 # AddresseParser
-Package Python pour parser les adresses françaises.
+Package Python pour parser et comparer les adresses françaises.
 
 # Lancement
 
