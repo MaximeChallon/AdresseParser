@@ -7,5 +7,5 @@
 
 from .AdresseParser import AdresseParser
 
-__version__="1.0.3"
+__version__="1.0.4"
 __title__="AddresseParser"
