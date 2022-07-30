@@ -48,7 +48,7 @@ Exemple d'utilisation en console Python:
      "cedex":[
        {
         "libelle": "str",
-        "codde_insee": "str"
+        "code_insee": "str"
        }
      ],
     "departement": {
