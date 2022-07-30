@@ -23,7 +23,7 @@ Exemple d'utilisation en console Python:
 >>> adr_parser = AdresseParser()
 >>> result = adr_parser.parse("88 rue de rivoli 75002 paris")
 >>> print(result)
-{'numero': '88', 'indice': None, 'rue': {'type': 'RUE', 'nom': 'RIVOLI'}, 'code_postal': '75002', 'ville': {'arrondissement': 2, 'nom': 'PARIS'}, 'departement': {'numero': 75, 'nom': 'Paris'}, 'region': 'Île-de-France', 'pays': 'France'}
+{'numero': '88', 'indice': None, 'rue': {'type': 'RUE', 'nom': 'RIVOLI'}, 'code_postal': '75002', 'ville': {'arrondissement': 2, 'nom': 'PARIS'}, 'cedex': [], 'departement': {'numero': 75, 'nom': 'Paris'}, 'region': 'Île-de-France', 'pays': 'France'}
 >>> print(result['rue'])
 {'type': 'RUE', 'nom': 'RIVOLI'}
 >>> print(result['ville']['arrondissement'])
@@ -45,6 +45,12 @@ Exemple d'utilisation en console Python:
           "arrondissement": "int",
           "nom": "str"
      },
+     "cedex":[
+       {
+        "libelle": "str",
+        "code_insee": "str"
+       }
+     ],
     "departement": {
           "numero": "str",
           "nom": "str"

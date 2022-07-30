@@ -32,4 +32,5 @@ setup(name="AdresseParser",
       classifiers=CLASSIFIERS,
       packages=["AdresseParser"],
       test_suite='nose.collector',
-      tests_require=['nose'])
+      tests_require=['nose'],
+      install_requires=['pandas>=0.24.2'])
