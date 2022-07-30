@@ -218,11 +218,10 @@ class TestAdresseParser():
         assert self.adresse14["region"] == "Île-de-France"
 
     def test_cedex(self):
-        assert self.adresse3["cedex"]["libelle"] == None
-        assert self.adresse3["cedex"]["code_insee"] == None
+        assert self.adresse3["cedex"] == []
 
-        assert self.adresse14["cedex"]["libelle"] == 'PARIS CEDEX 01'
-        assert self.adresse14["cedex"]["code_insee"] == '75101'
+        assert self.adresse14["cedex"][0]["libelle"] == 'PARIS CEDEX 01'
+        assert self.adresse14["cedex"][0]["code_insee"] == '75101'
 
     def test_compare(self):
         assert self.compare1 == True
