@@ -10,6 +10,7 @@
 """
 
 import re
+import pandas as pd
 from .codes_postaux import COMMUNES
 from .departements import DEPARTEMENTS
 
@@ -17,6 +18,7 @@ class AdresseParser():
     def __init__(self):
         self.regex_rue = '((AVENUE|IMPASSE|QUAI|VOIE|RUELLE|PLACE|BOULEVARD|RUE|VOIE|CIT(E|É)|ALL(É|E)E|CHEMIN|ROUTE|GR|R(É|E)SIDENCE|HAMEAU|LIEU(-| )DIT|TRAVERSE|PROMENADE|ROND(-| )POINT|PASSAGE)( D(E(S?| LA)|U))? )'
         self.type_rue = ['rue', 'avenue', 'boulevard', 'impasse', 'quai', 'voie', 'place', 'ruelle', 'cour', 'cité', 'cite', 'allée','allee','chemin','lieu-dit','promenade','lieu dit','rond point', 'rond-point', 'passage','traverse','route','gr','résidence','residence','hameau']
+        self.cedex = pd.read_csv('AdresseParser/data/liste-des-cedex.csv', delimiter=";")
 
     def parse(self, adresse_string):
         """
@@ -30,6 +32,7 @@ class AdresseParser():
         ville, arrondissement = self.get_ville(bloc_ville)
 
         code_postal, numero_dpt = self.get_code_postal(bloc_ville)
+        cedex = self.get_cedex(bloc_ville, code_postal)
 
         numero, indice = self.get_numero_rue(bloc_rue)
         
@@ -45,6 +48,7 @@ class AdresseParser():
                 "arrondissement": arrondissement,
                 "nom": ville
             },
+            "cedex":cedex,
             "departement": {
                 "numero": numero_dpt,
                 "nom": DEPARTEMENTS[str(numero_dpt)]["nom"]
@@ -80,15 +84,22 @@ class AdresseParser():
             requete = adresse_string
 
         # à partir de l'adresse normalisée, extraction des différents blocs d'information
-        if re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", requete):
-            bloc_rue = re.sub("[0-9]{5}.*", "", requete)
-            bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}[a-zA-Z éèàùêôî-]{0,})$", requete).group(1)
+        # vérification de la présence d'un cedex dans l'adresse en premier lieu
+        if "cedex" in requete.lower():
+            if re.match("^[0-9]{0,4}.*[0-9]{5}.*$", requete):
+                bloc_rue = re.sub("[0-9]{5}.*", "", requete)
+                bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}.*)$", requete).group(1)
 
-        elif re.match("^[0-9]{0,4}.*$", requete):
-            bloc_rue = re.sub("[0-9]{5}.*", "", requete)
-            bloc_ville = re.match("^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})[0-9]{0,4}.*$", requete)
-            if bloc_ville is not None:
-                bloc_ville = bloc_ville.group(1)
+        else:
+            if re.match("^[0-9]{0,4}.*[0-9]{5}[a-zA-Z éèàùêôî-]{0,}$", requete):
+                bloc_rue = re.sub("[0-9]{5}.*", "", requete)
+                bloc_ville = re.match("^[0-9]{0,4}.*([0-9]{5}[a-zA-Z éèàùêôî-]{0,})$", requete).group(1)
+
+            elif re.match("^[0-9]{0,4}.*$", requete):
+                bloc_rue = re.sub("[0-9]{5}.*", "", requete)
+                bloc_ville = re.match("^([0-9]{5}[a-zA-Z éèàùêôî-]{0,})[0-9]{0,4}.*$", requete)
+                if bloc_ville is not None:
+                    bloc_ville = bloc_ville.group(1)
 
         return (bloc_rue, bloc_ville)
 
@@ -166,14 +177,17 @@ class AdresseParser():
         if bloc_ville is not None:
             code_postal, numero_dpt = self.get_code_postal(bloc_ville)
 
-            if re.match("[0-9]{5} ?[^0-9]+$", str(bloc_ville)):
+            if re.match("[0-9]{5} ?[^0-9]+(cedex.*)?$", str(bloc_ville).lower()):
                 ville = re.sub("[0-9]{5} ?", "", str(bloc_ville))
+                ville = re.sub(" ?cedex.*", "", str(ville).lower())
                 ville = ville.upper().rstrip()
             else:
                 ville = COMMUNES[str(code_postal)].upper().rstrip()
 
             if "PARIS" in ville or "LYON" in bloc_ville or "MARSEILLE" in bloc_ville or re.match('^75[0-9]{3}', code_postal):
                 arrondissement = int(re.sub("^0+", "", code_postal.replace('75', '')))
+                if arrondissement>20:
+                    arrondissement = 0
             else:
                 arrondissement = 0
         else:
@@ -181,6 +195,24 @@ class AdresseParser():
             ville = ""
 
         return ville, arrondissement
+
+    def get_cedex(self, bloc_ville, code_postal):
+        """
+        Extrait le cedex s'il existe
+        :param bloc_ville: string 
+        :param code_postal: string
+        :return: str
+        """
+        cedex = []
+        if bloc_ville:
+            if "cedex" in bloc_ville.lower():
+                try:
+                    result  = self.cedex[self.cedex['cedex'] == int(code_postal)]
+                    for index, row in result.iterrows():
+                        cedex.append({"libelle":row[1], "code_insee":row[2]})
+                except:
+                    pass
+        return cedex
 
     def compare(self, adresse1:str, adresse2:str, clean_stopwords:bool = False):
         """
