@@ -13,12 +13,13 @@ import re
 import pandas as pd
 from .codes_postaux import COMMUNES
 from .departements import DEPARTEMENTS
+from .cedex import CEDEX
 
 class AdresseParser():
     def __init__(self):
         self.regex_rue = '((AVENUE|IMPASSE|QUAI|VOIE|RUELLE|PLACE|BOULEVARD|RUE|VOIE|CIT(E|É)|ALL(É|E)E|CHEMIN|ROUTE|GR|R(É|E)SIDENCE|HAMEAU|LIEU(-| )DIT|TRAVERSE|PROMENADE|ROND(-| )POINT|PASSAGE)( D(E(S?| LA)|U))? )'
         self.type_rue = ['rue', 'avenue', 'boulevard', 'impasse', 'quai', 'voie', 'place', 'ruelle', 'cour', 'cité', 'cite', 'allée','allee','chemin','lieu-dit','promenade','lieu dit','rond point', 'rond-point', 'passage','traverse','route','gr','résidence','residence','hameau']
-        self.cedex = pd.read_csv('AdresseParser/liste-des-cedex.csv', delimiter=";")
+        self.cedex = pd.DataFrame(CEDEX)
 
     def parse(self, adresse_string):
         """
@@ -209,7 +210,7 @@ class AdresseParser():
                 try:
                     result  = self.cedex[self.cedex['cedex'] == int(code_postal)]
                     for index, row in result.iterrows():
-                        cedex.append({"libelle":row[1], "code_insee":row[2]})
+                        cedex.append({"libelle":row[1], "code_insee":str(row[2])})
                 except:
                     pass
         return cedex
